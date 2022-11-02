@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazing Pairs Game</title>
+    <link rel="stylesheet" href="./app.css">
+</head>
+<body>
+    <main>
+        <section id="pre-game" class="show">
+            <h1></h1>
+
+            <form>
+                <label for="theme">Choose a theme...</label>
+                <select id="theme" name="theme">
+                    <option value="football" selected>Football</option>
+                    <option value="got">Game of Thrones</option>
+                </select>
+
+                <label for="time">Wanna set a time limit?</label>
+                <select id="time" name="time">
+                    <option value="true">Yes</option>
+                    <option value="false" selected>No</option>
+                </select>
+
+                <label for="attempts">Wanna set a limit on attempts?</label>
+                <select id="attempts" name="attempts">
+                    <option value="true">Yes</option>
+                    <option value="false" selected>No</option>
+                </select>
+                
+                <label for="difficulty">Select difficulty</label>
+                <select id="difficulty" name="difficulty">
+                    <optgroup id="beginners" class="show">
+                        <option value="1">Easy</option>
+                        <option value="2">Not that easy</option>
+                        <option value="3">Medium</option>
+                    </optgroup>
+
+                    <optgroup id="endurance" class="hide">
+                        <option value="4">A bit stressful</option>
+                        <option value="5">Pretty stressful</option>
+                        <option value="6">Unnerving</option>
+                    </optgroup>
+
+                    <optgroup id="professional" class="hide">
+                        <option value="7">Hard</option>
+                        <option value="8">Heroic</option>
+                        <option value="9">Insane</option>
+                    </optgroup>
+                </select>
+
+                <button id="start-btn" type="button">Start</button>
+            </form>
+        </section>
+
+        <section id="game" class="hide" style="background-color: red; min-height: 100vh">
+            <div id="card-grid"></div>
+
+            <audio id="champions-theme" loop>
+                <source src="./public/music/champions.mp3" type="audio/mpeg">
+            </audio>
+            <audio id="got-theme" loop>
+                <source src="./public/music/got.mp3" type="audio/mpeg">
+            </audio>
+        </section>
+    </main>
+    
+    <script type="text/javascript" src="./src/data/card-data.js"></script>
+    <script type="text/javascript" src="./src/game.js"></script>
+    <script type="text/javascript" src="./src/card.js"></script>
+    <script type="text/javascript" src="./app.js"></script>
+</body>
+</html>

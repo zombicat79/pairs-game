@@ -1,0 +1,20 @@
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+#card-grid {
+    display: grid;
+    width: 60%;
+    margin: 0 auto;
+    grid-template-columns: repeat(5, minmax(25px, 1fr));
+    grid-auto-rows: 150px;
+    grid-gap: 20px;
+}
+
+.card {
+    background-color: black;
+}
