@@ -16,5 +16,16 @@
 }
 
 .card {
-    background-color: black;
+    background-color: blue;
+}
+
+@keyframes cardRotation {
+    0% {transform: rotate3d(3, 0, 3, 0deg)}
+    100% {transform: rotate3d(3, 0, 3, 360deg)}
+}
+
+.rotating {
+    animation-name: cardRotation;
+    animation-timing-function: linear;
+    animation-duration: 1s;
 }

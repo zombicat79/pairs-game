@@ -24,15 +24,19 @@ class Game {
         this.createCards(shuffledCards);
         if (this.theme === "football") {
             document.getElementById("champions-theme").play();
+        }
+        else if (this.theme === "dragonball") {
+            document.getElementById("dragonball-theme").play();
         } else {
             document.getElementById("got-theme").play();
         }
     }
 
     pickCards() {
-        const cardDeck = this.theme === 'football' ? clubs : houses;
+        const cardDeck = this.theme === 'football' ? clubs : this.theme === 'dragonball' ? heroes : houses;
         let picks = 0;
         let selection = [];
+
         while (picks < this.cards / 2) {
             const randomIndex = Math.floor(Math.random() * cardDeck.length);
             if (!selection.includes(cardDeck[randomIndex])) {
@@ -90,14 +94,53 @@ class Game {
     createCards(readyCards) {
         const imgPath = `./public/images/${this.theme}/`;
 
-        readyCards.forEach((item) => {
+        readyCards.forEach((item, index) => {
             const newCard = document.createElement('div');
             const cardImg = document.createElement('img');
             cardImg.setAttribute('src', imgPath + item.img);
             cardImg.setAttribute('width', 75);
+            cardImg.style.display = "none";
             newCard.appendChild(cardImg);
+            newCard.setAttribute('id', index);
             newCard.classList.add('card');
+            newCard.classList.add(item.pairId);
+            const unveilCard = this.unveilCard.bind(this);
+            newCard.addEventListener('click', unveilCard);
             cardGrid.appendChild(newCard);
         })
+    }
+
+    unveilCard(event) {
+        if (this.activePairing.length < 2) {
+            this.flipCard(event.target);
+            this.activePairing.push(event.target);
+            this.evaluateTry();
+        }
+    }
+
+    flipCard(card) {
+        card.classList.add("rotating");
+        setTimeout(() => {
+            card.style.backgroundColor = "black";
+            Array.from(card.children)[0].style.display = "block";
+            card.classList.remove("rotating");
+        }, 1000);
+    }
+
+    evaluateTry() {
+        if (this.turnStep === 2) {
+            setTimeout(() => {
+                const classComparison = this.activePairing.map((el) => {
+                    return el.classList.value;
+                });
+                if (classComparison[0] === classComparison[1]) {
+                    console.log("Success!")
+                } else {
+                    console.log("Failure!")
+                }
+            }, 1500);
+        } else {
+            this.turnStep = 2;
+        }
     }
 }
