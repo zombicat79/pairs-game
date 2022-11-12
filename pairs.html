@@ -18,6 +18,7 @@
                     <option value="football" selected>Football</option>
                     <option value="got">Game of Thrones</option>
                     <option value="dragonball">Dragon Ball</option>
+                    <option value="space">Space exploration</option>
                 </select>
 
                 <label for="time">Wanna set a time limit?</label>
@@ -57,8 +58,12 @@
             </form>
         </section>
 
-        <section id="game" class="hide" style="background-color: red; min-height: 100vh">
-            <div id="card-grid"></div>
+        <section id="game" class="hide">
+            <div id="control-board"></div>
+            <div id="main-screen-wrapper">
+                <div id="message-board"></div>
+                <div id="card-grid"></div>
+            </div>
 
             <audio id="champions-theme" loop>
                 <source src="./public/music/champions.mp3" type="audio/mpeg">
@@ -68,6 +73,9 @@
             </audio>
             <audio id="dragonball-theme" loop>
                 <source src="./public/music/dragonball.ogg" type="audio/ogg">
+            </audio>
+            <audio id="interstellar-theme" loop>
+                <source src="./public/music/interstellar.mp3" type="audio/mpeg">
             </audio>
         </section>
     </main>

@@ -3,20 +3,83 @@
 }
 
 .show {
-    display: block;
+    display: flex;
+}
+
+#game {
+    min-height: 110vh;
+}
+.dragon-bg {
+    background: linear-gradient(red, yellow);
+}
+.got-bg {
+    background: linear-gradient(black, red);
+}
+.space-bg {
+    background: linear-gradient(blue, black);
+}
+.football-bg {
+    background: linear-gradient(to left, lightgreen, white, lightgreen);
+}
+
+#control-board {
+    width: 10%;
+    background: linear-gradient(slategray, silver, grey);
+    border: 3px solid black;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+#main-screen-wrapper {
+    width: 90%;
+}
+
+#message-board {
+    height: 15%;
 }
 
 #card-grid {
     display: grid;
-    width: 60%;
+    width: 75vw;
+    height: 85%;
     margin: 0 auto;
     grid-template-columns: repeat(5, minmax(25px, 1fr));
-    grid-auto-rows: 150px;
+    grid-auto-rows: 40vh;
     grid-gap: 20px;
 }
 
 .card {
-    background-color: blue;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.space-card {
+    background-image: url('./public/images/space/earth.jpeg');
+}
+.football-card {
+    background-image: url('./public/images/football/stadium2.jpeg');
+}
+.got-card {
+    background-image: url('./public/images/GoT/winter.jpeg');
+}
+.card:hover {
+    border: 5px solid red;
+    cursor: pointer;
+}
+
+.card-img {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.card-img-big {
+    width: 150px;
+}
+.card-img-small {
+    width: 75px;
 }
 
 @keyframes cardRotation {
@@ -28,4 +91,14 @@
     animation-name: cardRotation;
     animation-timing-function: linear;
     animation-duration: 1s;
+}
+
+/* */
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 40px;
+    height: 100vh
 }
