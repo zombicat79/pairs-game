@@ -8,6 +8,7 @@
 
 #game {
     min-height: 110vh;
+    overflow-x: hidden;
 }
 .dragon-bg {
     background: linear-gradient(red, yellow);
@@ -16,7 +17,7 @@
     background: linear-gradient(black, red);
 }
 .space-bg {
-    background: linear-gradient(blue, black);
+    background: linear-gradient(black, blue, black);
 }
 .football-bg {
     background: linear-gradient(to left, lightgreen, white, lightgreen);
@@ -28,14 +29,48 @@
     border: 3px solid black;
     border-radius: 10px;
     margin: 10px;
+    z-index: 10;
 }
 
 #main-screen-wrapper {
     width: 90%;
 }
 
+@keyframes messageIn {
+    0% {transform: translateX(100%); opacity: 1}
+    30% {transform: translateX(-10%); opacity: 1}
+    40% {transform: translateX(0%); opacity: 1}
+    50% {transform: translateX(0%); opacity: 1}
+    60% {transform: translateX(0%); opacity: 1}
+    70% {transform: translateX(10%); opacity: 1}
+    100% {transform: translateX(-100%); opacity: 0}
+}
 #message-board {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75vw;
     height: 15%;
+    margin: 0 auto;
+    transform: translateX(100%);
+}
+.coming-in {
+    animation: messageIn 8s ease-out;
+}
+@keyframes rolling {
+    0% {transform: rotate(0deg)}
+    100% {transform: rotate(-360deg)}
+}
+.message-img {
+    height: 50px;
+    animation-name: rolling;
+    animation-timing-function: linear;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+}
+#message-text {
+    min-width: 250px;
+    text-align: center;
 }
 
 #card-grid {
