@@ -61,11 +61,11 @@ const missions = [
     {pairId: 'm6', name: 'Soyuz TMA-13M', img: 'tma13m.png'},
     {pairId: 'm7', name: 'Soyuz TM-20', img: 'tm20.png'},
     {pairId: 'm8', name: 'Soyuz 3', img: 'soyuz3.png'},
-    {pairId: 'm9', name: 'Spitzer Space Telescope Mission', img: 'spitzer.png'},
+    {pairId: 'm9', name: 'Spitzer Space Telescope', img: 'spitzer.png'},
     {pairId: 'm10', name: 'SpaceX Crew-2', img: 'crew2.png'},
     {pairId: 'm11', name: 'Falcon Heavy Test Flight', img: 'heavytest.png'},
     {pairId: 'm12', name: 'Shenzhou 14', img: 'shenzhou14.png'},
-    {pairId: 'm13', name: 'ESA Promisse Mission', img: 'promisse.png'},
+    {pairId: 'm13', name: 'ESA Promisse', img: 'promisse.png'},
     {pairId: 'm14', name: 'STS-08', img: 'sts8.png'},
     {pairId: 'm15', name: 'Apollo XI', img: 'apollo11.png'},
 ]

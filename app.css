@@ -1,3 +1,17 @@
+/* CSS Starter Reset */
+* {
+	outline: 0;
+	padding: 0;
+	margin: 0;
+}
+
+/* Font configuration */
+@font-face {
+    font-family: 'Space-Bold';
+    src: url('./public/fonts/space/ChakraPetch-Bold.ttf');
+}
+
+/* General classes */
 .hide {
     display: none;
 }
@@ -6,18 +20,41 @@
     display: flex;
 }
 
+/*  */
 #game {
     min-height: 110vh;
     overflow-x: hidden;
 }
+
+/* In-game background styles */
 .dragon-bg {
     background: linear-gradient(red, yellow);
+}
+@keyframes gatherKamehameha {
+    0% {background: linear-gradient(red, yellow)}
+    100% {background: linear-gradient(blue, skyblue, skyblue, white, skyblue, skyblue, blue)}
+}
+.kame-gather {
+    animation-name: gatherKamehameha;
+    animation-duration: 0.15s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
 }
 .got-bg {
     background: linear-gradient(black, red);
 }
 .space-bg {
     background: linear-gradient(black, blue, black);
+}
+@keyframes alarmOn {
+    0% {background: linear-gradient(black, blue, black)}
+    100% {background: radial-gradient(darkorange, red, darkred, darkred, darkred, black)}
+}
+.space-alarmed {
+    animation-name: alarmOn;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: 4;
 }
 .football-bg {
     background: linear-gradient(to left, lightgreen, white, lightgreen);
@@ -32,10 +69,12 @@
     z-index: 10;
 }
 
+/*  */
 #main-screen-wrapper {
     width: 90%;
 }
 
+/* In-game messaging styles */
 @keyframes messageIn {
     0% {transform: translateX(100%); opacity: 1}
     30% {transform: translateX(-10%); opacity: 1}
@@ -73,7 +112,29 @@
     text-align: center;
 }
 
+#ending-msg {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0;
+}
+@keyframes textGrow {
+    0% {font-size: 0}
+    70% {font-size: 12vw}
+    80% {font-size: 10vw}
+    90% {font-size: 12vw}
+    100% {font-size: 10vw}
+}
+.txt-appearing {
+    animation-name: textGrow;
+    animation-duration: 3s;
+    animation-timing-function: ease-in;
+}
+
+/* In-game card styles */
 #card-grid {
+    position: relative;
     display: grid;
     width: 75vw;
     height: 85%;
@@ -88,6 +149,16 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+}
+@keyframes cardRotation {
+    0% {transform: rotate3d(3, 0, 3, 0deg)}
+    100% {transform: rotate3d(3, 0, 3, 360deg)}
+}
+
+.rotating {
+    animation-name: cardRotation;
+    animation-timing-function: linear;
+    animation-duration: 1s;
 }
 .space-card {
     background-image: url('./public/images/space/earth.jpeg');
@@ -117,16 +188,8 @@
     width: 75px;
 }
 
-@keyframes cardRotation {
-    0% {transform: rotate3d(3, 0, 3, 0deg)}
-    100% {transform: rotate3d(3, 0, 3, 360deg)}
-}
 
-.rotating {
-    animation-name: cardRotation;
-    animation-timing-function: linear;
-    animation-duration: 1s;
-}
+
 
 /* */
 form {

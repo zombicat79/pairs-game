@@ -30,13 +30,16 @@ class Game {
         }
         else if (this.theme === "dragonball") {
             gameScreen.classList.add("dragon-bg");
+            document.getElementById("dragonball-theme").volume = 0.8;
             document.getElementById("dragonball-theme").play();
         }
         else if (this.theme === "space") {
             gameScreen.classList.add("space-bg");
+            document.getElementById("interstellar-theme").volume = 0.8;
             document.getElementById("interstellar-theme").play();
         } else {
             gameScreen.classList.add("got-bg");
+            document.getElementById("got-theme").volume = 0.8;
             document.getElementById("got-theme").play();
         }
     }
@@ -118,10 +121,10 @@ class Game {
         return shuffleDeck2.concat(shuffleDeck1);
     }
 
-    createCards(readyCards) {
+    createCards(processedCards) {
         const imgPath = `./public/images/${this.theme}/`;
 
-        readyCards.forEach((item, index) => {
+        processedCards.forEach((item, index) => {
             const newCard = document.createElement('div');
             
             if (this.theme === 'football' || this.theme === 'got' || this.theme === 'space') {
@@ -155,17 +158,19 @@ class Game {
             newCard.dataset.pair_id = item.pairId;
             const unveilCard = this.unveilCard.bind(this);
             newCard.addEventListener('click', function(event) {
-                unveilCard(event, item);
+                unveilCard(event, processedCards, item);
             });
             cardGrid.appendChild(newCard);
         })
     }
 
-    unveilCard(event, contentInfo) {
+    unveilCard(event, initialCardState, contentInfo) {
         if (this.activePairing.length < 2) {
-            this.flipCard(event.target);
-            this.activePairing.push(event.target);
-            this.evaluateTry(event.target, contentInfo);
+            if (!this.activePairing.includes(event.target) && !this.activePairing.includes(event.target.parentElement)) {
+                this.flipCard(event.target);
+                this.activePairing.push(event.target);
+                this.evaluateTry(initialCardState, contentInfo);
+            }
         }
     }
 
@@ -196,7 +201,7 @@ class Game {
         }
     }
 
-    evaluateTry(card, contentInfo) {
+    evaluateTry(initialCardState, contentInfo) {
         document.getElementById("message-text").innerHTML = ''
         if (this.turnStep === 2) {
             setTimeout(() => {
@@ -207,13 +212,19 @@ class Game {
                 console.log(classComparison)
                 if (classComparison[0] === classComparison[1]) {
                     this.postMessage('success', contentInfo);
+                    this.runSFX('success');
                     this.collectedPairs.push(this.activePairing);
+                    if (this.collectedPairs.length === this.goal) {
+                        this.finishGame('success');
+                        return;
+                    }
                     this.activePairing = [];
                 } else {
                     this.postMessage('failure', contentInfo);
+                    this.runSFX('failure');
                     const backflipCards = this.backflipCards.bind(this);
                     setTimeout(() => {
-                        backflipCards(contentInfo)
+                        backflipCards(initialCardState)
                     }, 2000);
                 }
                 this.turnStep = 1;
@@ -223,7 +234,7 @@ class Game {
         }
     }
 
-    backflipCards(contentInfo) {
+    backflipCards(initialCardState) {
         this.activePairing.forEach((card) => {
             card.classList.add("rotating");
             card.classList.remove("flipped");
@@ -233,7 +244,11 @@ class Game {
             }
             if (this.theme === 'dragonball') {
                 const imgPath = `./public/images/${this.theme}/`;
-                card.style.backgroundImage = `url('./public/images/dragonball/xeron-goku.png'), linear-gradient(skyblue, white), url(${imgPath + contentInfo.img})`;
+                initialCardState.forEach((el) => {
+                    if (card.className.includes(el.pairId)) {
+                        card.style.backgroundImage = `url('./public/images/dragonball/xeron-goku.png'), linear-gradient(skyblue, white), url(${imgPath + el.img})`;
+                    }
+                })
                 card.style.backgroundSize = 'contain';
             }
             setTimeout(() => {
@@ -255,10 +270,10 @@ class Game {
                 messageText.innerHTML = msgType === 'success' ? `Nailed it! You just swore allegiance to ${contentInfo.name}!` : 'Wrong choice!';
                 break;
             case 'dragonball':
-                messageText.innerHTML = msgType === 'success' ? `Nailed it! You added ${contentInfo.name} to your fighter squad!` : 'Wrong choice!';
+                messageText.innerHTML = msgType === 'success' ? `Nailed it! You enrolled <strong>${contentInfo.name}</strong> in your fighter squad!` : `Wrong move! You took a power punch from <strong>${contentInfo.name}</strong>`;
                 break;
             default:
-                messageText.innerHTML = msgType === 'success' ? `Nailed it! You scheduled ${contentInfo.name} to launch!` : 'Wrong choice!';
+                messageText.innerHTML = msgType === 'success' ? `All systems in place! <strong>${contentInfo.name} mission</strong> is ready to launch!` : 'System error: unable to calculate orbit. Aborting launch!';
         }
         gameScreen.style.pointerEvents = "none";
         messageBoard.classList.add('coming-in');
@@ -266,5 +281,98 @@ class Game {
             messageBoard.classList.remove('coming-in');
             gameScreen.style.pointerEvents = "initial";
         }, 8000)
+    }
+
+    runSFX(sfxType) {
+        let soundPath;
+        let sfxPlayer;
+        let availableEffects;
+        let randomEffect;
+        switch(this.theme) {
+            case 'space':
+                soundPath = "./public/sounds/space/";
+                sfxPlayer = document.getElementById("space-sfx");
+                if (sfxType === 'success') {
+                    availableEffects = [/*'liftoff.wav', 'rocket-launch.mp3', */ 'sequence.mp3'];
+                }
+                else if (sfxType === 'successful-end') {
+                    setTimeout(() => {
+                        sfxPlayer.setAttribute('src', soundPath + 'liftoff.wav');
+                        document.getElementById("space-sfx").play();
+                    }, 5000)
+                    return;
+                } else {
+                    gameScreen.classList.add('space-alarmed');
+                    setTimeout(() => {gameScreen.classList.remove('space-alarmed')}, 5000);
+                    availableEffects = [/* 'houston-problem.mp3', 'high-pitched-alarm.wav', */ 'nuclear-alert.mp3'];
+                }
+                randomEffect = availableEffects[Math.floor(Math.random() * availableEffects.length)];
+                sfxPlayer.setAttribute('src', soundPath + randomEffect);
+                document.getElementById("space-sfx").play();
+                break;
+            case 'got':
+                soundPath = "./public/sounds/got/";
+                sfxPlayer = document.getElementById("got-sfx");
+                if (sfxType === 'success') {
+                    availableEffects = [/* 'dragon-roar.mp3', 'wolf-howl.mp3', */ 'lion-roar.mp3'];
+                } else {
+                    availableEffects = [/* 'winter-is-coming.mp3',*/ 'dracarys.mp3' /*, 'im-not-lord-commander.mp3', 'burn-your-bodies.mp3', 'hard-for-you.mp3', 'terrible-mistake.mp3', 'where-are-my-dragons.mp3'*/];
+                }
+
+                randomEffect = availableEffects[Math.floor(Math.random() * availableEffects.length)];
+                sfxPlayer.setAttribute('src', soundPath + randomEffect);
+                document.getElementById("got-sfx").play();
+                break;
+            case 'dragonball':
+                soundPath = "./public/sounds/dragonball/";
+                sfxPlayer = document.getElementById("dragonball-sfx");
+                if (sfxType === 'success') {
+                    availableEffects = ['adventure-tone.mp3'];
+                }
+                else if (sfxType === 'successful-end') {
+                    setTimeout(() => {
+                        sfxPlayer.setAttribute('src', soundPath + 'kamehameha.mp3');
+                        document.getElementById("dragonball-sfx").play();
+                    }, 5000)
+                    return;
+                } else {
+                    availableEffects = ['punch-sfx.mp3'];
+                }
+
+                randomEffect = availableEffects[Math.floor(Math.random() * availableEffects.length)];
+                sfxPlayer.setAttribute('src', soundPath + randomEffect);
+                document.getElementById("dragonball-sfx").play();
+                break;
+        }
+    }
+
+    finishGame(endType) {
+        cardGrid.style.pointerEvents = "none";
+        const endingMsg = document.getElementById("ending-msg");
+        
+        if (endType = 'success') {
+            this.runSFX('successful-end');
+            switch(this.theme) {
+                case 'dragonball':
+                    setTimeout(() => {
+                        gameScreen.classList.add('kame-gather');
+                        setTimeout(() => {gameScreen.classList.remove('kame-attack')}, 5000);
+                    }, 5000);
+                    break;
+                case 'space':
+                    endingMsg.innerHTML = 'Liftoff!'
+                    endingMsg.style.zIndex = "10";
+                    endingMsg.style.fontFamily = "Space-Bold";
+                    endingMsg.style.color = 'yellow';
+                    setTimeout(() => {
+                        endingMsg.classList.add('txt-appearing');
+                        setTimeout(() => {
+                            endingMsg.style.fontSize = "10vw";
+                            endingMsg.classList.remove('txt-appearing');
+                        }, 3000);
+                    }, 15000)
+                    break;
+            }
+        }
     }
 }
