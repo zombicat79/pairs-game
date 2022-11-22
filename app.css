@@ -22,8 +22,9 @@
 
 /*  */
 #game {
-    min-height: 110vh;
     overflow-x: hidden;
+    overflow-y: hidden;
+    padding: 40px 0 100px;
 }
 
 /* In-game background styles */
@@ -61,17 +62,20 @@
 }
 
 #control-board {
-    width: 10%;
+    position: relative;
+    left: 25px;
+    top: 75px;
+    width: 20vw;
+    height: 75vh;
     background: linear-gradient(slategray, silver, grey);
     border: 3px solid black;
-    border-radius: 10px;
-    margin: 10px;
+    border-radius: 50px;
     z-index: 10;
 }
 
 /*  */
 #main-screen-wrapper {
-    width: 90%;
+    width: 100%;
 }
 
 /* In-game messaging styles */
@@ -89,7 +93,7 @@
     justify-content: center;
     align-items: center;
     width: 75vw;
-    height: 15%;
+    height: 75px;
     margin: 0 auto;
     transform: translateX(100%);
 }
