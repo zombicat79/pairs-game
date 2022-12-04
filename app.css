@@ -7,6 +7,24 @@
 
 /* Font configuration */
 @font-face {
+    font-family: 'Macondo';
+    src: url('./public/fonts/got/Macondo-Regular.ttf')
+}
+
+@font-face {
+    font-family: 'Archivo-Regular';
+    src: url('./public/fonts/dragonball/ArchivoBlack-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Space-Regular';
+    src: url('./public/fonts/space/ChakraPetch-Regular.ttf')
+}
+@font-face {
+    font-family: 'Space-Italic-Bold';
+    src: url('./public/fonts/space/ChakraPetch-BoldItalic.ttf')
+}
+@font-face {
     font-family: 'Space-Bold';
     src: url('./public/fonts/space/ChakraPetch-Bold.ttf');
 }
@@ -35,11 +53,35 @@
     0% {background: linear-gradient(red, yellow)}
     100% {background: linear-gradient(blue, skyblue, skyblue, white, skyblue, skyblue, blue)}
 }
+@keyframes releaseKamehameha {
+    0% {background: linear-gradient(skyblue, white, skyblue)}
+    10% {background: linear-gradient(blue, skyblue, skyblue, white, skyblue, skyblue, blue)}
+    30% {background: skyblue; opacity: 0.5}
+    35% {background: skyblue; opacity: 1}
+    40% {background: skyblue; opacity: 0.5}
+    45% {background: skyblue; opacity: 1}
+    50% {background: linear-gradient(skyblue, white, skyblue); opacity: 0.5}
+    55% {background: linear-gradient(skyblue, white, skyblue); opacity: 1}
+    60% {background: linear-gradient(skyblue, white, skyblue); opacity: 0.5}
+    65% {background: linear-gradient(skyblue, white, skyblue); opacity: 1}
+    70% {background: linear-gradient(skyblue, white, skyblue); opacity: 0.5}
+    75% {background: linear-gradient(skyblue, white, skyblue); opacity: 1}
+    80% {background: white; opacity: 0.5}
+    85% {background: white; opacity: 1}
+    90% {background: linear-gradient(skyblue, white, skyblue); opacity: 0.5}
+    95% {background: linear-gradient(skyblue, white, skyblue); opacity: 1}
+    100% {background: white; opacity: 0.5}
+}
 .kame-gather {
     animation-name: gatherKamehameha;
     animation-duration: 0.15s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
+}
+.kame-attack {
+    animation-name: releaseKamehameha;
+    animation-duration: 10s;
+    animation-timing-function: ease-in;
 }
 .got-bg {
     background: linear-gradient(black, red);
@@ -94,7 +136,7 @@
     align-items: center;
     width: 75vw;
     height: 75px;
-    margin: 0 auto;
+    margin: 0 auto 10px;
     transform: translateX(100%);
 }
 .coming-in {
@@ -114,6 +156,8 @@
 #message-text {
     min-width: 250px;
     text-align: center;
+    padding: 0 20px;
+    font-size: 20px;
 }
 
 #ending-msg {
@@ -167,14 +211,22 @@
 .space-card {
     background-image: url('./public/images/space/earth.jpeg');
 }
+.space-card:hover {
+    border: 5px solid yellow;
+}
 .football-card {
     background-image: url('./public/images/football/stadium2.jpeg');
+}
+.dragonball-card:hover, .football-card:hover {
+    border: 5px solid black;
 }
 .got-card {
     background-image: url('./public/images/GoT/winter.jpeg');
 }
+.got-card:hover {
+    border: 5px solid white;
+}
 .card:hover {
-    border: 5px solid red;
     cursor: pointer;
 }
 

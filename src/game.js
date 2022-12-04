@@ -52,7 +52,7 @@ class Game {
                 msgImages.forEach((img) => img.setAttribute('src', './public/images/football/ball.png'));
                 break;
             case 'got':
-                msgImages.forEach((img) => img.setAttribute('src', './public/images/GoT/targaryen-round.png'));
+                msgImages.forEach((img) => img.setAttribute('src', './public/images/GoT/ice-and-fire.png'));
                 break;
             case 'dragonball':
                 msgImages.forEach((img) => img.setAttribute('src', './public/images/dragonball/golden-ball.png'));
@@ -140,12 +140,16 @@ class Game {
                     case 'got':
                         newCard.classList.add('got-card');
                         cardImg.classList.add('card-img-big');
+                        newCard.addEventListener('mouseover', () => {
+                            //this.runSFX('card-hover');
+                        })
                         break;
                     default:
                         newCard.classList.add('football-card');
                         cardImg.classList.add('card-img-small');
                 }
             } else {
+                newCard.classList.add('dragonball-card');
                 newCard.style.backgroundImage = `url('./public/images/dragonball/xeron-goku.png'), linear-gradient(skyblue, white), url(${imgPath + item.img})`;
                 newCard.style.backgroundSize = 'contain';
                 newCard.style.backgroundPosition = 'center';
@@ -156,6 +160,9 @@ class Game {
             newCard.classList.add('card');
             newCard.classList.add(item.pairId);
             newCard.dataset.pair_id = item.pairId;
+            newCard.addEventListener('mouseover', () => {
+                this.runSFX('card-hover');
+            })
             const unveilCard = this.unveilCard.bind(this);
             newCard.addEventListener('click', function(event) {
                 unveilCard(event, processedCards, item);
@@ -169,6 +176,7 @@ class Game {
             if (!this.activePairing.includes(event.target) && !this.activePairing.includes(event.target.parentElement)) {
                 this.flipCard(event.target);
                 this.activePairing.push(event.target);
+                event.target.style.pointerEvents = "none";
                 this.evaluateTry(initialCardState, contentInfo);
             }
         }
@@ -253,6 +261,7 @@ class Game {
             }
             setTimeout(() => {
                 card.classList.remove("rotating");
+                card.style.pointerEvents = "initial";
             }, 1000)
         })
         this.activePairing = [];
@@ -264,17 +273,24 @@ class Game {
 
         switch(this.theme) {
             case 'football':
-                messageText.innerHTML = msgType === 'success' ? `Nailed it! You classified ${contentInfo.name} for the next round!` : 'Wrong choice!';
+                messageText.innerHTML = msgType === 'success' ? `That's a magnificent goal! You put ${contentInfo.name} ahead in the scoreboard!` : `What an incredibly missed chance! You'd better keep training!`;
                 break;
             case 'got':
-                messageText.innerHTML = msgType === 'success' ? `Nailed it! You just swore allegiance to ${contentInfo.name}!` : 'Wrong choice!';
+                messageText.style.fontFamily = 'Macondo, cursive';
+                messageText.style.color = 'white';
+                messageText.innerHTML = msgType === 'success' ? `Allegiance sworn! You took <span style="color: goldenrod">${contentInfo.name}</span> under your banner!` : `Unwise decision! <span style="color: darkred">${contentInfo.name}</span> betrayed you and aligned with your foes.`;
                 break;
             case 'dragonball':
-                messageText.innerHTML = msgType === 'success' ? `Nailed it! You enrolled <strong>${contentInfo.name}</strong> in your fighter squad!` : `Wrong move! You took a power punch from <strong>${contentInfo.name}</strong>`;
+                messageText.style.fontFamily = 'Archivo-Regular, Arial, sans-serif';
+                messageText.style.color = 'black';
+                messageText.innerHTML = msgType === 'success' ? `Nailed it! You enrolled <strong>${contentInfo.name.toUpperCase()}</strong> in your fighter squad!` : `Wrong move! You took a power punch from <strong>${contentInfo.name.toUpperCase()}</strong>`;
                 break;
             default:
-                messageText.innerHTML = msgType === 'success' ? `All systems in place! <strong>${contentInfo.name} mission</strong> is ready to launch!` : 'System error: unable to calculate orbit. Aborting launch!';
+                messageText.style.fontFamily = 'Space-Regular, Arial, sans-serif';
+                messageText.style.color = 'yellow';
+                messageText.innerHTML = msgType === 'success' ? `All systems in place! <span style="font-family: 'Space-Italic-Bold'; color: goldenrod">${contentInfo.name} mission</span> is ready to launch!` : 'System error: unable to calculate orbit. Aborting launch!';
         }
+        window.scroll({top: 0, left: 0, behavior: 'smooth'});
         gameScreen.style.pointerEvents = "none";
         messageBoard.classList.add('coming-in');
         setTimeout(() => {
@@ -295,6 +311,9 @@ class Game {
                 if (sfxType === 'success') {
                     availableEffects = [/*'liftoff.wav', 'rocket-launch.mp3', */ 'sequence.mp3'];
                 }
+                else if (sfxType === 'card-hover') {
+                    availableEffects = ['computer-blip.mp3'];
+                }
                 else if (sfxType === 'successful-end') {
                     setTimeout(() => {
                         sfxPlayer.setAttribute('src', soundPath + 'liftoff.wav');
@@ -314,7 +333,10 @@ class Game {
                 soundPath = "./public/sounds/got/";
                 sfxPlayer = document.getElementById("got-sfx");
                 if (sfxType === 'success') {
-                    availableEffects = [/* 'dragon-roar.mp3', 'wolf-howl.mp3', */ 'lion-roar.mp3'];
+                    availableEffects = [/* 'dragon-roar.mp3', 'wolf-howl.mp3', */ 'battle-horn.mp3'];
+                }
+                else if (sfxType === 'card-hover') {
+                    availableEffects = ['unsheath-sword.wav'];
                 } else {
                     availableEffects = [/* 'winter-is-coming.mp3',*/ 'dracarys.mp3' /*, 'im-not-lord-commander.mp3', 'burn-your-bodies.mp3', 'hard-for-you.mp3', 'terrible-mistake.mp3', 'where-are-my-dragons.mp3'*/];
                 }
@@ -328,6 +350,9 @@ class Game {
                 sfxPlayer = document.getElementById("dragonball-sfx");
                 if (sfxType === 'success') {
                     availableEffects = ['adventure-tone.mp3'];
+                }
+                else if (sfxType === 'card-hover') {
+                    availableEffects = ['canvi-de-lloc.mp3'];
                 }
                 else if (sfxType === 'successful-end') {
                     setTimeout(() => {
@@ -343,6 +368,29 @@ class Game {
                 sfxPlayer.setAttribute('src', soundPath + randomEffect);
                 document.getElementById("dragonball-sfx").play();
                 break;
+            default:
+                soundPath = "./public/sounds/football/";
+                sfxPlayer = document.getElementById("football-sfx");
+                if (sfxType === 'success') {
+                    availableEffects = ['goal.mp3'];
+                }
+                else if (sfxType === 'card-hover') {
+                    availableEffects = ['football-kick.wav'];
+                }
+                else if (sfxType === 'successful-end') {
+                    /* setTimeout(() => {
+                        sfxPlayer.setAttribute('src', soundPath + 'kamehameha.mp3');
+                        document.getElementById("dragonball-sfx").play();
+                    }, 5000)
+                    return; */
+                } else {
+                    availableEffects = ['booing-crowd.wav'];
+                }
+
+                randomEffect = availableEffects[Math.floor(Math.random() * availableEffects.length)];
+                sfxPlayer.setAttribute('src', soundPath + randomEffect);
+                document.getElementById("football-sfx").play();
+
         }
     }
 
@@ -356,7 +404,34 @@ class Game {
                 case 'dragonball':
                     setTimeout(() => {
                         gameScreen.classList.add('kame-gather');
-                        setTimeout(() => {gameScreen.classList.remove('kame-attack')}, 5000);
+                        endingMsg.style.fontSize = "6vw";
+                        endingMsg.innerHTML = 'KAME...'
+                        endingMsg.style.zIndex = "10";
+                        endingMsg.style.fontFamily = "Archivo-Regular";
+                        endingMsg.style.color = "black";
+                        setTimeout(() => {endingMsg.innerHTML = 'HAME...'}, 2500);
+                        setTimeout(() => {
+                            endingMsg.innerHTML = 'HA!!!';
+                            gameScreen.classList.remove('kame-gather');
+                            gameScreen.style.zIndex = "100";
+                            gameScreen.classList.add('kame-attack');
+                        }, 8000);
+                        setTimeout(() => {endingMsg.innerHTML = 'HAA!!!'}, 9000);
+                        setTimeout(() => {endingMsg.innerHTML = 'HAAA!!!'}, 9500);
+                        setTimeout(() => {endingMsg.innerHTML = 'HAAAA!!!'}, 10000);
+                        setTimeout(() => {endingMsg.innerHTML = 'HAAAAA!!!'}, 10500);
+                        setTimeout(() => {endingMsg.innerHTML = 'HAAAAAA!!!'}, 11000);
+                        setTimeout(() => {endingMsg.innerHTML = 'HAAAAAAA!!!'}, 11500);
+                        setTimeout(() => {endingMsg.innerHTML = 'HAAAAAAAA!!!'}, 12000);
+                        setTimeout(() => {endingMsg.innerHTML = 'HAAAAAAAAA!!!'}, 12500);
+                        setTimeout(() => {endingMsg.innerHTML = 'HAAAAAAAAAA!!!'}, 13000);
+                        setTimeout(() => {endingMsg.innerHTML = 'HAAAAAAAAAAA!!!'}, 13500);
+                        setTimeout(() => {endingMsg.innerHTML = 'HAAAAAAAAAAAA!!!'}, 14000);
+                        setTimeout(() => {
+                            gameScreen.classList.remove('kame-attack');
+                            gameScreen.style.background = "linear-gradient(skyblue, white, skyblue)";
+                            gameScreen.style.opacity = "0.35";
+                        }, 14500);
                     }, 5000);
                     break;
                 case 'space':
