@@ -9,6 +9,7 @@ class Game {
         this.turnStep = 1;
         this.goal = cards / 2;
         this.finished = false;
+        this.countdown = null;
     }
 
     startGame() {
@@ -169,6 +170,15 @@ class Game {
             });
             cardGrid.appendChild(newCard);
         })
+
+        const cronometer = new Countdown(this.timeHandicap);
+        this.countdown = setInterval(() => {
+            console.log(`${cronometer.formattedMinutes}:${cronometer.formattedSeconds}`)
+            cronometer.decreaseSeconds();
+            if (cronometer.minutes === 0 && cronometer.seconds === 0) {
+                clearInterval(this.countdown);
+            }
+        }, 1000)
     }
 
     unveilCard(event, initialCardState, contentInfo) {
@@ -232,7 +242,7 @@ class Game {
                     this.runSFX('failure');
                     const backflipCards = this.backflipCards.bind(this);
                     setTimeout(() => {
-                        backflipCards(initialCardState)
+                        backflipCards(initialCardState);
                     }, 2000);
                 }
                 this.turnStep = 1;
@@ -300,6 +310,7 @@ class Game {
     }
 
     runSFX(sfxType) {
+        const statusImg = document.querySelector(".status-img-wrapper img");
         let soundPath;
         let sfxPlayer;
         let availableEffects;
@@ -362,6 +373,15 @@ class Game {
                     return;
                 } else {
                     availableEffects = ['punch-sfx.mp3'];
+                    statusImg.setAttribute('src', './public/images/dragonball/punching-saiyan.png');
+                    statusImg.style.width = "0%";
+                    statusImg.style.display = "block";
+                    statusImg.classList.add("get-attacked");
+                    setTimeout(() => {gameScreen.classList.add("get-punched")}, 500);
+                    setTimeout(() => {
+                        statusImg.classList.remove("get-attacked");
+                        gameScreen.classList.remove("get-punched");
+                    }, 4500);
                 }
 
                 randomEffect = availableEffects[Math.floor(Math.random() * availableEffects.length)];
@@ -396,56 +416,15 @@ class Game {
 
     finishGame(endType) {
         cardGrid.style.pointerEvents = "none";
-        const endingMsg = document.getElementById("ending-msg");
         
         if (endType = 'success') {
             this.runSFX('successful-end');
             switch(this.theme) {
                 case 'dragonball':
-                    setTimeout(() => {
-                        gameScreen.classList.add('kame-gather');
-                        endingMsg.style.fontSize = "6vw";
-                        endingMsg.innerHTML = 'KAME...'
-                        endingMsg.style.zIndex = "10";
-                        endingMsg.style.fontFamily = "Archivo-Regular";
-                        endingMsg.style.color = "black";
-                        setTimeout(() => {endingMsg.innerHTML = 'HAME...'}, 2500);
-                        setTimeout(() => {
-                            endingMsg.innerHTML = 'HA!!!';
-                            gameScreen.classList.remove('kame-gather');
-                            gameScreen.style.zIndex = "100";
-                            gameScreen.classList.add('kame-attack');
-                        }, 8000);
-                        setTimeout(() => {endingMsg.innerHTML = 'HAA!!!'}, 9000);
-                        setTimeout(() => {endingMsg.innerHTML = 'HAAA!!!'}, 9500);
-                        setTimeout(() => {endingMsg.innerHTML = 'HAAAA!!!'}, 10000);
-                        setTimeout(() => {endingMsg.innerHTML = 'HAAAAA!!!'}, 10500);
-                        setTimeout(() => {endingMsg.innerHTML = 'HAAAAAA!!!'}, 11000);
-                        setTimeout(() => {endingMsg.innerHTML = 'HAAAAAAA!!!'}, 11500);
-                        setTimeout(() => {endingMsg.innerHTML = 'HAAAAAAAA!!!'}, 12000);
-                        setTimeout(() => {endingMsg.innerHTML = 'HAAAAAAAAA!!!'}, 12500);
-                        setTimeout(() => {endingMsg.innerHTML = 'HAAAAAAAAAA!!!'}, 13000);
-                        setTimeout(() => {endingMsg.innerHTML = 'HAAAAAAAAAAA!!!'}, 13500);
-                        setTimeout(() => {endingMsg.innerHTML = 'HAAAAAAAAAAAA!!!'}, 14000);
-                        setTimeout(() => {
-                            gameScreen.classList.remove('kame-attack');
-                            gameScreen.style.background = "linear-gradient(skyblue, white, skyblue)";
-                            gameScreen.style.opacity = "0.35";
-                        }, 14500);
-                    }, 5000);
+                    launchKame();
                     break;
                 case 'space':
-                    endingMsg.innerHTML = 'Liftoff!'
-                    endingMsg.style.zIndex = "10";
-                    endingMsg.style.fontFamily = "Space-Bold";
-                    endingMsg.style.color = 'yellow';
-                    setTimeout(() => {
-                        endingMsg.classList.add('txt-appearing');
-                        setTimeout(() => {
-                            endingMsg.style.fontSize = "10vw";
-                            endingMsg.classList.remove('txt-appearing');
-                        }, 3000);
-                    }, 15000)
+                    liftoffGoAhead()
                     break;
             }
         }

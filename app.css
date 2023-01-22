@@ -49,6 +49,24 @@
 .dragon-bg {
     background: linear-gradient(red, yellow);
 }
+@keyframes saiyanAttack {
+    0% {opacity: 1; width: 0%}
+    70% {opacity: 1; width: 150%}
+    80% {opacity: 0.75; width: 75%}
+    90% {opacity: 0.5; width: 50%}
+    92% {opacity: 0.25; width: 25%}
+    95% {opacity: 0.15; width: 15%}
+    97% {opacity: 0.05; width: 5%}
+    100% {opacity: 0; width: 0%}
+}
+@keyframes punchHit {
+    0% {background: linear-gradient(red, yellow)}
+    20% {background: white}
+    40% {background: linear-gradient(red, yellow)}
+    60% {background: white}
+    80% {background: linear-gradient(red, yellow)}
+    100% {background: white}
+}
 @keyframes gatherKamehameha {
     0% {background: linear-gradient(red, yellow)}
     100% {background: linear-gradient(blue, skyblue, skyblue, white, skyblue, skyblue, blue)}
@@ -71,6 +89,16 @@
     90% {background: linear-gradient(skyblue, white, skyblue); opacity: 0.5}
     95% {background: linear-gradient(skyblue, white, skyblue); opacity: 1}
     100% {background: white; opacity: 0.5}
+}
+.get-attacked {
+    animation-name: saiyanAttack;
+    animation-duration: 5s;
+    animation-timing-function: ease-out;
+}
+.get-punched {
+    animation-name: punchHit;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
 }
 .kame-gather {
     animation-name: gatherKamehameha;
