@@ -43,6 +43,30 @@ class Game {
             document.getElementById("got-theme").volume = 0.8;
             document.getElementById("got-theme").play();
         }
+
+        if (this.guessHandicap) {
+            const attemptElements = Array.from(document.querySelectorAll(".attempt-meter-wrapper, .attempt-info-wrapper"));
+            attemptElements.forEach((el) => {
+                console.log(el)
+                el.style.display = "block";
+            })
+        }
+        this.setAttempts("initial");
+        this.setGoal("initial");
+    }
+
+    setAttempts(configMode) {
+        if (configMode === "initial") {
+            document.getElementById("attempt-remainder").innerHTML = this.guessHandicap;
+            document.getElementById("attempt-total").innerHTML = this.guessHandicap;
+        }
+    }
+
+    setGoal(configMode) {
+        if (configMode === "initial") {
+            document.getElementById("goal-total").innerHTML = 0;
+            document.getElementById("goal-total").innerHTML = this.goal;
+        }
     }
 
     setDecoration() {
@@ -51,15 +75,19 @@ class Game {
         switch(this.theme) {
             case 'football':
                 msgImages.forEach((img) => img.setAttribute('src', './public/images/football/ball.png'));
+                document.getElementById("football-emblem").style.display = "block";
                 break;
             case 'got':
                 msgImages.forEach((img) => img.setAttribute('src', './public/images/GoT/ice-and-fire.png'));
+                document.getElementById("got-emblem").style.display = "block";
                 break;
             case 'dragonball':
                 msgImages.forEach((img) => img.setAttribute('src', './public/images/dragonball/golden-ball.png'));
+                document.getElementById("dragonball-emblem").style.display = "block";
                 break;
             default:
                 msgImages.forEach((img) => img.setAttribute('src', './public/images/space/planet-mars.png'));
+                document.getElementById("space-emblem").style.display = "block";
         }
     }
 
@@ -171,14 +199,16 @@ class Game {
             cardGrid.appendChild(newCard);
         })
 
-        const cronometer = new Countdown(this.timeHandicap);
-        this.countdown = setInterval(() => {
-            console.log(`${cronometer.formattedMinutes}:${cronometer.formattedSeconds}`)
-            cronometer.decreaseSeconds();
-            if (cronometer.minutes === 0 && cronometer.seconds === 0) {
-                clearInterval(this.countdown);
-            }
-        }, 1000)
+        if (this.timeHandicap) {
+            const cronometer = new Countdown(this.timeHandicap);
+            this.countdown = setInterval(() => {
+                console.log(`${cronometer.formattedMinutes}:${cronometer.formattedSeconds}`)
+                cronometer.decreaseSeconds();
+                if (cronometer.minutes === 0 && cronometer.seconds === 0) {
+                    clearInterval(this.countdown);
+                }
+            }, 1000)
+        }
     }
 
     unveilCard(event, initialCardState, contentInfo) {
