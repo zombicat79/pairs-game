@@ -156,6 +156,17 @@
 .status-img-wrapper [src*="football"] {
     height: 120px;
 }
+.control-panel {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.icon-wrapper img {
+    width: 40px;
+}
+.icon-wrapper:first-child img {
+    width: 50px;
+}
 
 /*  */
 #main-screen-wrapper {

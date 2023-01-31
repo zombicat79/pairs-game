@@ -29,6 +29,15 @@ const difficulty3 = document.getElementById("professional");
 const difficultyGroups = [difficulty1, difficulty2, difficulty3];
 const startBtn = document.getElementById("start-btn");
 
+const bigMinutesMarker = document.getElementById("minutes1");
+const smallMinutesMarker = document.getElementById("minutes2");
+const bigSecondsMarker = document.getElementById("seconds1");
+const smallSecondsMarker = document.getElementById("seconds2");
+
+const soundControl = document.getElementById("sound-control");
+const screenControl = document.getElementById("screen-control");
+const gameRestart = document.getElementById("game-restart");
+
 const cardGrid = document.getElementById("card-grid");
 
 // Management of difficulty selection menus
@@ -84,4 +93,16 @@ difficultySelect.addEventListener('change', function() {
 startBtn.addEventListener("click", function() {
     const game = new Game(themeSelect.value, gameParameters[0], gameParameters[1], gameParameters[2]);
     game.startGame();
+
+    soundControl.addEventListener("click", function() {
+        game.toggleSound();
+    })
+    
+    screenControl.addEventListener("click", function() {
+        game.toggleScreen();
+    })
+    
+    screenControl.addEventListener("click", function() {
+        game.restart();
+    })
 })

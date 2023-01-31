@@ -51,3 +51,14 @@ function liftoffGoAhead() {
         }, 3000);
     }, 15000)
 }
+
+// CONTROL BOARD HELPER FUNCTIONS
+
+function manageSound(musicState, musicClip) {
+    if (musicState) {
+        document.getElementById(`${musicClip}-theme`).pause();
+        document.getElementById(`${musicClip}-theme`).currentTime = 0;
+    } else {
+        document.getElementById(`${musicClip}-theme`).play();
+    }
+}

@@ -28,6 +28,14 @@ class Countdown {
             }, 2000)
         }
         this.formattedMinutes = this.formatTime(this.minutes);
+        this.printTime();
+    }
+
+    printTime() {
+        bigMinutesMarker.innerHTML = this.formattedMinutes[0];
+        smallMinutesMarker.innerHTML = this.formattedMinutes[1];
+        bigSecondsMarker.innerHTML = this.formattedSeconds[0];
+        smallSecondsMarker.innerHTML = this.formattedSeconds[1];
     }
 
     formatTime(timeUnit) {

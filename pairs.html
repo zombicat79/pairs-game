@@ -67,6 +67,13 @@
                     <img id="space-emblem" src="./public/images/space/space-badge.png" alt="saturn planet emblem" style="display: none">
                 </div>
                 <div class="status-info-panel" class="column-center">
+                    <div class="goal-meter-wrapper">
+
+                    </div>
+                    <div class="goal-info-wrapper">
+                        <p>Matches</p>
+                        <p><span id="goal-remainder">0</span> / <span id="goal-total"></span></p>
+                    </div>
                     <div class="attempt-meter-wrapper" style="display: none">
 
                     </div>
@@ -74,26 +81,26 @@
                         <p>Remaining attempts</p>
                         <p><span id="attempt-remainder"></span> / <span id="attempt-total"></span></p>
                     </div>
-                    <div class="goal-meter-wrapper">
-
-                    </div>
-                    <div class="goal-info-wrapper">
-                        <p>Matches</p>
-                        <p><span id="goal-remainder"></span> / <span id="goal-total"></span></p>
-                    </div>
                 </div>
-                <div class="cronometer-wrapper" class="column-center">
-
+                <div class="cronometer-wrapper" class="column-center" style="display: none">
+                    <p>Remaining time</p>
+                    <p class="cronometer">
+                        <span id="minutes1"></span>
+                        <span id="minutes2"></span>
+                         : 
+                        <span id="seconds1"></span>
+                        <span id="seconds2"></span>
+                    </p>
                 </div>
                 <div class="control-panel">
-                    <div class="icon-wrapper">
-                        <img>
+                    <div id="sound-control" class="icon-wrapper">
+                        <img src="./public/images/volume-on.svg">
                     </div>
-                    <div class="icon-wrapper">
-                        <img>
+                    <div id="screen-control" class="icon-wrapper">
+                        <img src="./public/images/full-screen.svg">
                     </div>
-                    <div class="icon-wrapper">
-                        <img>
+                    <div id="game-restart" class="icon-wrapper">
+                        <img src="./public/images/refresh.svg" >
                     </div>
                 </div>
             </div>

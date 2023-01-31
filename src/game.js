@@ -10,6 +10,7 @@ class Game {
         this.goal = cards / 2;
         this.finished = false;
         this.countdown = null;
+        this.music = true;
     }
 
     startGame() {
@@ -200,6 +201,8 @@ class Game {
         })
 
         if (this.timeHandicap) {
+            document.querySelector(".cronometer-wrapper").style.display = "block";
+
             const cronometer = new Countdown(this.timeHandicap);
             this.countdown = setInterval(() => {
                 console.log(`${cronometer.formattedMinutes}:${cronometer.formattedSeconds}`)
@@ -441,6 +444,29 @@ class Game {
                 sfxPlayer.setAttribute('src', soundPath + randomEffect);
                 document.getElementById("football-sfx").play();
 
+        }
+    }
+
+    toggleSound() {
+        switch(this.theme) {
+            case "football":
+                manageSound(this.music, "champions");
+                break;
+            case "got":
+                manageSound(this.music, "got");
+                break;
+            case "dragonball":
+                manageSound(this.music, "dragonball");
+                break;
+            default:
+                manageSound(this.music, "interstellar");
+        }
+        if (this.music) {
+            document.querySelector("#sound-control img").setAttribute("src", "./public/images/volume-off.svg")
+            this.music = false;
+        } else {
+            document.querySelector("#sound-control img").setAttribute("src", "./public/images/volume-on.svg")
+            this.music = true;
         }
     }
 
