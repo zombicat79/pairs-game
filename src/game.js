@@ -11,6 +11,7 @@ class Game {
         this.finished = false;
         this.countdown = null;
         this.music = true;
+        this.fullScreen = false;
     }
 
     startGame() {
@@ -468,6 +469,24 @@ class Game {
             document.querySelector("#sound-control img").setAttribute("src", "./public/images/volume-on.svg")
             this.music = true;
         }
+    }
+
+    toggleScreen() {
+        if (main.requestFullscreen) {
+            if (!this.fullScreen) {
+                main.requestFullscreen();
+                this.fullScreen = true;
+            } else {
+                document.exitFullscreen();
+                this.fullScreen = false;
+            }
+        }
+    }
+
+    restart() {
+        freezeScreen();
+        this.toggleSound();
+        showPopup();
     }
 
     finishGame(endType) {

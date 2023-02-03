@@ -1,3 +1,16 @@
+// GENERAL USE HELPER FUNCTIONS
+
+
+// CONTROL BOARD HELPER FUNCTIONS
+function manageSound(musicState, musicClip) {
+    if (musicState) {
+        document.getElementById(`${musicClip}-theme`).pause();
+        document.getElementById(`${musicClip}-theme`).currentTime = 0;
+    } else {
+        document.getElementById(`${musicClip}-theme`).play();
+    }
+}
+
 const endingMsg = document.getElementById("ending-msg");
 // DRAGON BALL HELPER FUNCTIONS
 
@@ -37,7 +50,6 @@ function launchKame() {
 
 
 // SPACE EXPLORATION HELPER FUNCTIONS
-
 function liftoffGoAhead() {
     endingMsg.innerHTML = 'Liftoff!'
     endingMsg.style.zIndex = "10";
@@ -50,15 +62,4 @@ function liftoffGoAhead() {
             endingMsg.classList.remove('txt-appearing');
         }, 3000);
     }, 15000)
-}
-
-// CONTROL BOARD HELPER FUNCTIONS
-
-function manageSound(musicState, musicClip) {
-    if (musicState) {
-        document.getElementById(`${musicClip}-theme`).pause();
-        document.getElementById(`${musicClip}-theme`).currentTime = 0;
-    } else {
-        document.getElementById(`${musicClip}-theme`).play();
-    }
 }

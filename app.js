@@ -15,8 +15,12 @@ const difficultyChart = {
 let gameParameters = [difficultyChart[1].cards, difficultyChart[1].time, difficultyChart[1].attempts];
 
 // Acquisition of DOM elements
+const body = document.querySelector("body");
+const main = document.querySelector("main");
+
 const setupScreen = document.getElementById("pre-game");
 const gameScreen = document.getElementById("game");
+const popupBox = document.getElementById("popup-box");
 
 const themeSelect = document.getElementById("theme");
 const timeSelect = document.getElementById("time");
@@ -89,6 +93,30 @@ difficultySelect.addEventListener('change', function() {
     gameParameters = [...gameParameters, cards, time, attempts];
 })
 
+//
+function freezeScreen() {
+    body.classList.remove("body-relive");
+    main.classList.remove("main-relive");
+    gameScreen.classList.remove("game-relive");
+    body.classList.add("body-freeze");
+    main.classList.add("main-freeze");
+    gameScreen.classList.add("game-freeze");
+}
+
+function reliveScreen() {
+    body.classList.remove("body-freeze");
+    main.classList.remove("main-freeze");
+    gameScreen.classList.remove("game-freeze");
+    body.classList.add("body-relive");
+    main.classList.add("main-relive");
+    gameScreen.classList.add("game-relive");
+}
+
+function showPopup() {
+    popupBox.classList.remove("hide");
+    popupBox.classList.add("show");
+}
+
 // Game start
 startBtn.addEventListener("click", function() {
     const game = new Game(themeSelect.value, gameParameters[0], gameParameters[1], gameParameters[2]);
@@ -102,7 +130,7 @@ startBtn.addEventListener("click", function() {
         game.toggleScreen();
     })
     
-    screenControl.addEventListener("click", function() {
+    gameRestart.addEventListener("click", function() {
         game.restart();
     })
 })
