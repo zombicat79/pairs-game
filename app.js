@@ -21,6 +21,9 @@ const main = document.querySelector("main");
 const setupScreen = document.getElementById("pre-game");
 const gameScreen = document.getElementById("game");
 const popupBox = document.getElementById("popup-box");
+const loadingCircle = document.getElementById("loader-box");
+const btnYes = document.getElementById("popup-yes");
+const btnNo = document.getElementById("popup-no");
 
 const themeSelect = document.getElementById("theme");
 const timeSelect = document.getElementById("time");
@@ -117,13 +120,32 @@ function showPopup() {
     popupBox.classList.add("show");
 }
 
+function hidePopup() {
+    popupBox.classList.remove("show");
+    popupBox.classList.add("hide");
+}
+
+function showLoadingMode() {
+    loadingCircle.classList.remove("hide");
+    loadingCircle.classList.add("show");
+}
+
+function hideLoadingMode() {
+    loadingCircle.classList.remove("show");
+    loadingCircle.classList.add("hide");
+}
+
 // Game start
 startBtn.addEventListener("click", function() {
+    freezeScreen();
+    showLoadingMode();
     const game = new Game(themeSelect.value, gameParameters[0], gameParameters[1], gameParameters[2]);
-    game.startGame();
+    setTimeout(() => {
+        game.startGame();
+    }, 2500)
 
     soundControl.addEventListener("click", function() {
-        game.toggleSound();
+        game.toggleSound("stop");
     })
     
     screenControl.addEventListener("click", function() {
@@ -131,6 +153,18 @@ startBtn.addEventListener("click", function() {
     })
     
     gameRestart.addEventListener("click", function() {
-        game.restart();
+        game.quitGame();
+    })
+
+    btnYes.addEventListener("click", function() {
+        hidePopup();
+        showLoadingMode();
+        game.confirmQuitGame();
+    })
+
+    btnNo.addEventListener("click", function() {
+        hidePopup();
+        reliveScreen();
+        game.toggleSound();
     })
 })

@@ -11,12 +11,15 @@ class Game {
         this.finished = false;
         this.countdown = null;
         this.music = true;
+        this.musicProgress = null;
         this.fullScreen = false;
     }
 
     startGame() {
         console.log("starting game!!");
         console.log(`theme: ${this.theme}, cards: ${this.cards}, time: ${this.timeHandicap}, attempts: ${this.guessHandicap}`)
+        reliveScreen();
+        hideLoadingMode()
         setupScreen.classList.remove('show');
         setupScreen.classList.add('hide');
         gameScreen.classList.toggle('hide');
@@ -448,19 +451,23 @@ class Game {
         }
     }
 
-    toggleSound() {
+    toggleSound(actionType) {
+        if (actionType === "stop") {
+            this.musicProgress = null;
+        }
+        
         switch(this.theme) {
             case "football":
-                manageSound(this.music, "champions");
+                manageSound(this.music, "champions", this.musicProgress);
                 break;
             case "got":
-                manageSound(this.music, "got");
+                manageSound(this.music, "got", this.musicProgress);
                 break;
             case "dragonball":
-                manageSound(this.music, "dragonball");
+                manageSound(this.music, "dragonball", this.musicProgress);
                 break;
             default:
-                manageSound(this.music, "interstellar");
+                manageSound(this.music, "interstellar", this.musicProgress);
         }
         if (this.music) {
             document.querySelector("#sound-control img").setAttribute("src", "./public/images/volume-off.svg")
@@ -468,6 +475,22 @@ class Game {
         } else {
             document.querySelector("#sound-control img").setAttribute("src", "./public/images/volume-on.svg")
             this.music = true;
+        }
+    }
+
+    saveMusicProgress() {
+        switch(this.theme) {
+            case "football":
+                this.musicProgress = document.getElementById("champions-theme").currentTime;
+                break;
+            case "got":
+                this.musicProgress = document.getElementById("got-theme").currentTime;
+                break;
+            case "dragonball":
+                this.musicProgress = document.getElementById("dragonball-theme").currentTime;
+                break;
+            default:
+                this.musicProgress = document.getElementById("interstellar-theme").currentTime;
         }
     }
 
@@ -483,10 +506,17 @@ class Game {
         }
     }
 
-    restart() {
+    quitGame() {
         freezeScreen();
-        this.toggleSound();
+        this.saveMusicProgress();
+        this.toggleSound("hold");
         showPopup();
+    }
+
+    confirmQuitGame() {
+        setTimeout(() => {
+            location.reload();
+        }, 2000)
     }
 
     finishGame(endType) {

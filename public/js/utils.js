@@ -2,10 +2,14 @@
 
 
 // CONTROL BOARD HELPER FUNCTIONS
-function manageSound(musicState, musicClip) {
+function manageSound(musicState, musicClip, musicProgress) {
     if (musicState) {
         document.getElementById(`${musicClip}-theme`).pause();
-        document.getElementById(`${musicClip}-theme`).currentTime = 0;
+        if (musicProgress) {
+            document.getElementById(`${musicClip}-theme`).currentTime = musicProgress;
+        } else {
+            document.getElementById(`${musicClip}-theme`).currentTime = 0;
+        }
     } else {
         document.getElementById(`${musicClip}-theme`).play();
     }

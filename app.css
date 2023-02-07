@@ -7,6 +7,16 @@
 
 /* Font configuration */
 @font-face {
+    font-family: 'Quantico-Regular';
+    src: url('./public/fonts/Quantico-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Quantico-Bold';
+    src: url('./public/fonts/Quantico-Bold.ttf');
+}
+
+@font-face {
     font-family: 'Macondo';
     src: url('./public/fonts/got/Macondo-Regular.ttf')
 }
@@ -48,6 +58,7 @@
     padding: 10px 20px;
     color: white;
     text-transform: uppercase;
+    font-family: inherit;
 }
 .btn:hover {
     cursor: pointer;
@@ -356,12 +367,21 @@
     height: 300px;
     width: 400px;
     background-color: white;
+    font-family: 'Quantico-Regular';
     border-radius: 20px;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
+}
+
+#loader-box {
+    background-color: transparent;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 /* */
@@ -371,5 +391,6 @@ form {
     justify-content: space-evenly;
     align-items: center;
     font-size: 40px;
+    font-family: 'Quantico-Regular';
     height: 100vh
 }

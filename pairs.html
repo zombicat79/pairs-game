@@ -12,9 +12,13 @@
         <div id="popup-box" class="column-center hide">
             <p>Sure you wanna quit the current game?</p>
             <div>
-                <button class="btn btn-alert">Yes</button>
-                <button class="btn btn-success">No</button>
+                <button id="popup-yes" class="btn btn-alert">Yes</button>
+                <button id="popup-no" class="btn btn-success">No</button>
             </div>
+        </div>
+
+        <div id="loader-box" class="column-center hide">
+            <img src="./public/images/circular-progress.gif" alt="progress animated circle"/>
         </div>
 
         <section id="pre-game" class="show">
@@ -108,7 +112,7 @@
                         <img src="./public/images/full-screen.svg">
                     </div>
                     <div id="game-restart" class="icon-wrapper">
-                        <img src="./public/images/refresh.svg" >
+                        <img src="./public/images/log-out.svg" >
                     </div>
                 </div>
             </div>
