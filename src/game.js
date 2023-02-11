@@ -269,6 +269,7 @@ class Game {
                     this.postMessage('success', contentInfo);
                     this.runSFX('success');
                     this.collectedPairs.push(this.activePairing);
+                    this.updateProgress();
                     if (this.collectedPairs.length === this.goal) {
                         this.finishGame('success');
                         return;
@@ -287,6 +288,14 @@ class Game {
         } else {
             this.turnStep = 2;
         }
+    }
+
+    updateProgress() {
+        const updatedProgress = Number(goalRemainder.innerHTML) + 1;
+        const updatedPercentage = (updatedProgress * 100) / 5;
+
+        goalRemainder.innerHTML = Number(goalRemainder.innerHTML) + 1;
+        goalRemainderBar.style.width = `${updatedPercentage}%`;
     }
 
     backflipCards(initialCardState) {

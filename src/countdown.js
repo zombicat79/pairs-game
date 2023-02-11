@@ -28,6 +28,7 @@ class Countdown {
             }, 2000)
         }
         this.formattedMinutes = this.formatTime(this.minutes);
+        this.checkUrgency();
         this.printTime();
     }
 
@@ -43,6 +44,14 @@ class Countdown {
             return '0' + timeUnit.toString();
         } else {
             return timeUnit.toString();
+        }
+    }
+
+    checkUrgency() {
+        if (this.formattedMinutes === '00' || (this.formattedMinutes === '01' && this.formattedSeconds === '00')) {
+            cronometerCounter.style.color = "red";
+        } else {
+            cronometerCounter.style.color = "black";
         }
     }
 }

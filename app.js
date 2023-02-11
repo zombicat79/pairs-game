@@ -36,6 +36,9 @@ const difficulty3 = document.getElementById("professional");
 const difficultyGroups = [difficulty1, difficulty2, difficulty3];
 const startBtn = document.getElementById("start-btn");
 
+const goalRemainder = document.getElementById("goal-remainder");
+const goalRemainderBar = document.querySelector(".goal-meter-wrapper .inner-meter");
+const cronometerCounter = document.querySelector(".cronometer");
 const bigMinutesMarker = document.getElementById("minutes1");
 const smallMinutesMarker = document.getElementById("minutes2");
 const bigSecondsMarker = document.getElementById("seconds1");
